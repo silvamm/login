@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Login</string>
+    <string name="txtUsuario">E-mail</string>
+    <string name="txtSenha">Senha</string>
+    <string name="btEntrar">Entrar</string>
+    <string name="campoObrigatorio">Esse campo é obrigatório</string>
+    <string name="emailInvalido">E-mail inválido</string>
+</resources>
