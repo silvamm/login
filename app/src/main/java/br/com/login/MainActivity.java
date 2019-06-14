@@ -3,6 +3,7 @@ package br.com.login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +15,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInApi;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
+
+
+    SignInButton btnGoogle;
+    FirebaseAuth mAuth;
+    GoogleSignInApi mGoogleSignInClient;
+    private final int RC_SIGN_IN = 2;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btEntrar = findViewById(R.id.btEntrar);
+        btnGoogle = findViewById(R.id.btnGoogle);
 
         btEntrar.setOnClickListener(b ->
         {
@@ -32,7 +49,32 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = (GoogleSignInApi) GoogleSignIn.getClient(this, gso);
+
+        mAuth = FirebaseAuth.getInstance();
+
+
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+    }
+
+
+//
+//    private void signIn() {
+//
+//        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//        startActivityForResult(signInIntent, RC_SIGN_IN);
+//    }
 
 
     public void efetuarLogin(EditText inputEmail, EditText inputSenha){
